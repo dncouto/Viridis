@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,13 +35,19 @@ public class EquipmentController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<EquipmentDTO> save(@RequestBody EquipmentDTO equipment) {
+	public ResponseEntity<EquipmentDTO> create(@RequestBody EquipmentDTO equipment) {
 	    try {
-	        if (equipment.getId() == null)
-	            return ResponseEntity.ok().body(equipmentService.create(equipment));
-	        else
-	            return ResponseEntity.ok().body(equipmentService.update(equipment));
+	        return ResponseEntity.ok().body(equipmentService.create(equipment));
 	    } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+	
+	@PutMapping
+    public ResponseEntity<EquipmentDTO> update(@RequestBody EquipmentDTO equipment) {
+        try {
+            return ResponseEntity.ok().body(equipmentService.update(equipment));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

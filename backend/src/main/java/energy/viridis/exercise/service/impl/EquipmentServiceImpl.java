@@ -52,7 +52,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@CacheEvict(cacheNames= {"equipment#get","equipment#getAll"}, allEntries=true)
     public EquipmentDTO update(EquipmentDTO dto) throws Exception {
         
-        log.info("Update one new Equipment");
+        log.info("Update one Equipment");
         Equipment equipment = new Equipment().withId(dto.getId()).withName(dto.getName());
         equipment = equipmentRepository.save(equipment);
         EquipmentDTO objUpdated = new EquipmentDTO(equipment);
