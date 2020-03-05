@@ -1,14 +1,16 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8080'
-const FULL_API_URL = `${API_URL}/api/equipment`
+const API_BASE_URL = 'http://localhost:8080'
+const FULL_API_URL = `${API_BASE_URL}/api/equipment`
 
 class EquipmentDataService {
 
     retrieveAllEquipments() {
-        return axios.get(`${FULL_API_URL}`,
-            //{ headers: { authorization: 'Basic ' + window.btoa(INSTRUCTOR + ":" + PASSWORD) } }
-        );
+        return axios.get(`${FULL_API_URL}`);
+    }
+
+    createEquipment(equipment) {
+        return axios.post(`${FULL_API_URL}`, equipment);
     }
 
     updateEquipment(equipment) {

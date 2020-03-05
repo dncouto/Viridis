@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EquipmentDataService from '../service/EquipmentDataService.js';
 import EquipmentUpdateForm from './EquipmentUpdateForm.jsx';
+import EquipmentCreateForm from './EquipmentCreateForm.jsx';
 
 class ListEquipmentsComponent extends Component {
     constructor(props) {
@@ -46,14 +47,15 @@ class ListEquipmentsComponent extends Component {
                 <button className="btn btn-primary btn-xs" onClick={this.refreshEquipments} style={{'margin':'0px 0px 10px 15px','float':'right'}}>
                     Atualizar
                 </button>
+                <EquipmentCreateForm refreshEquipments={this.refreshEquipments}/>
                 <div className="container">
                     <table className="table">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Descrição</th>
-                                <th></th>
-                                <th></th>
+                                <th style={{width:'10%'}}></th>
+                                <th style={{width:'10%'}}></th>
                             </tr>
                         </thead>
                         <tbody>
