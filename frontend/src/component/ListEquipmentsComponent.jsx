@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EquipmentDataService from '../service/EquipmentDataService.js';
+import EquipmentUpdateForm from './EquipmentUpdateForm.jsx';
 
 class ListEquipmentsComponent extends Component {
     constructor(props) {
@@ -12,8 +12,6 @@ class ListEquipmentsComponent extends Component {
         }
         this.refreshEquipments = this.refreshEquipments.bind(this)
         this.deleteEquipment = this.deleteEquipment.bind(this);
-        //this.createStudent = this.createStudent.bind(this);
-        //this.updateStudent = this.updateStudent.bind(this);
     }
 
     componentDidMount() {
@@ -29,24 +27,6 @@ class ListEquipmentsComponent extends Component {
             )
     }
     
-    updateEquipment(equipment) {
-        alert('teste');
-        /*
-        fetch(student.link, 
-        {   method: 'PUT', 
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(student)
-        })
-        .then( 
-            res => this.loadStudentsFromServer()
-        )
-        .catch( err => console.error(err))
-        */
-      }
-      
     deleteEquipment(equipment) {
         EquipmentDataService.deleteEquipment(equipment)
             .then(() => { 
@@ -56,7 +36,7 @@ class ListEquipmentsComponent extends Component {
             .catch( err => {
                 console.error(err);
                 alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
-            })
+            });
     }  
 
     render() {
@@ -84,7 +64,7 @@ class ListEquipmentsComponent extends Component {
                                             <td>{equipment.id}</td>
                                             <td>{equipment.name}</td>
                                             <td>               
-                                                <EquipmentUpdateForm updateEquipment={this.props.updateEquipment} equipment={equipment}/>          
+                                                <EquipmentUpdateForm refreshEquipments={this.refreshEquipments} equipment={equipment}/>          
                                             </td>
                                             <td>               
                                                 <button className="btn btn-danger btn-xs" onClick={() => this.deleteEquipment(equipment)}>Excluir</button>
@@ -97,69 +77,6 @@ class ListEquipmentsComponent extends Component {
                 </div>
             </div>
         )
-    }
-}
-
-class EquipmentUpdateForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {id: this.props.equipment.id, name: this.props.equipment.name};
-        this.handleSubmit = this.handleSubmit.bind(this);   
-        this.handleChange = this.handleChange.bind(this);     
-    }
-
-    handleChange(event) {
-        this.setState(
-            {[event.target.name]: event.target.value}
-        );
-    }    
-    
-    handleSubmit(event) {
-        event.preventDefault();
-        var updStudent = {link: this.props.student._links.self.href, id: this.state.id, name: this.state.name};
-        this.props.updateStudent(updStudent);   
-        this.refs.editDialog.hide();         
-    }
-    
-    render() {
-        return (
-          <div>
-            <SkyLight hideOnOverlayClicked ref="editDialog">
-                <div className="panel panel-default">
-                <div className="modal-header">Alteração de Equipamento</div>
-                <div className="modal-body">
-                <form className="form">
-                    <div className="row">
-                        <div className="col-md-2">
-                            <label>Código: </label>
-                        </div>
-                        <div className="col-md-4">
-                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id} onChange={this.handleChange}/>    
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-2">
-                            <label>Descrição: </label>
-                        </div>
-                        <div className="col-md-4">       
-                            <input type="text" placeholder="Descrição" className="form-control" name="name" value={this.state.name} onChange={this.handleChange}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-2"></div>
-                        <div className="col-md-2">
-                            <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>   
-                        </div>     
-                    </div>  
-                </form>
-                </div>      
-                </div>
-            </SkyLight>
-            <div>
-                <button className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Alterar</button>
-            </div>
-          </div>   
-        );
     }
 }
 
