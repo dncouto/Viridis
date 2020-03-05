@@ -23,11 +23,14 @@ class ListEquipmentsComponent extends Component {
                 }
             )
     }
-
+    
     render() {
         return (
             <div className="container">
                 <h3>Equipamentos</h3>
+                <button onClick={this.refreshEquipments} style={{'margin':'0px 0px 10px 15px'}}>
+                    Atualizar
+                </button>
                 <div className="container">
                     <table className="table">
                         <thead>
