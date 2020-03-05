@@ -10,6 +10,10 @@ class EquipmentDataService {
             //{ headers: { authorization: 'Basic ' + window.btoa(INSTRUCTOR + ":" + PASSWORD) } }
         );
     }
+
+    deleteEquipment(equipment) {
+        return axios.delete(`${FULL_API_URL}/equipment/${equipment.id}`);
+    }
 }
 
 export default new EquipmentDataService()
