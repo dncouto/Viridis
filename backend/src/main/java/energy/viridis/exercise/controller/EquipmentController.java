@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import energy.viridis.exercise.dto.EquipmentDTO;
-import energy.viridis.exercise.model.Equipment;
 import energy.viridis.exercise.service.EquipmentService;
 
 @RestController
@@ -27,12 +26,12 @@ public class EquipmentController {
 	private EquipmentService equipmentService;
 
 	@GetMapping
-	public ResponseEntity<List<Equipment>> getAll() {
+	public ResponseEntity<List<EquipmentDTO>> getAll() {
 		return ResponseEntity.ok().body(equipmentService.getAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Equipment> get(@PathVariable("id") Long id) {
+	public ResponseEntity<EquipmentDTO> get(@PathVariable("id") Long id) {
 		return ResponseEntity.ok().body(equipmentService.get(id));
 	}
 	
@@ -56,7 +55,6 @@ public class EquipmentController {
 
 	@DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-	    
 	    try {
             if (equipmentService.delete(id)) {
                 return ResponseEntity.noContent().build();
@@ -65,6 +63,5 @@ public class EquipmentController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
-        
     }
 }

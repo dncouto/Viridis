@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ListEquipmentsComponent from './ListEquipmentsComponent';
+import ListMaintenanceOrdersComponent from './ListMaintenanceOrdersComponent';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LoginComponent from './LoginComponent';
 import LogoutComponent from './LogoutComponent';
@@ -24,6 +25,7 @@ class InstructorApp extends Component {
                             <Route path='/about' component={About}/>
                             <AuthenticatedRoute path="/logout" exact component={LogoutComponent} />
                             <AuthenticatedRoute path="/equipments" exact component={ListEquipmentsComponent} />
+                            <AuthenticatedRoute path="/orders" exact component={ListMaintenanceOrdersComponent} />
                         </Switch>
                     </>
                 </Router>

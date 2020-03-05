@@ -1,5 +1,6 @@
 package energy.viridis.exercise.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,18 +24,23 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Override
 	@Cacheable("equipment#get")
-	public Equipment get(Long id) {
+	public EquipmentDTO get(Long id) {
 
 		log.info("Retrieving Equipment - id: {}", id);
-		return equipmentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Equipment not found."));
+		Equipment equipment = equipmentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Equipment not found."));
+		return new EquipmentDTO(equipment);
 	}
 
 	@Override
 	@Cacheable("equipment#getAll")
-	public List<Equipment> getAll() {
+	public List<EquipmentDTO> getAll() {
 
 		log.info("Listing all Equipment");
-		return equipmentRepository.findAll();
+		List<EquipmentDTO> resultList = new ArrayList<EquipmentDTO>();
+		equipmentRepository.findAll().forEach((item) -> {
+            resultList.add(new EquipmentDTO(item));
+        });
+		return resultList;
 	}
 	
 	@Override

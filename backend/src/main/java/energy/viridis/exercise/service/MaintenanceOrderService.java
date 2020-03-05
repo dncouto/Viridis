@@ -2,12 +2,18 @@ package energy.viridis.exercise.service;
 
 import java.util.List;
 
-import energy.viridis.exercise.model.MaintenanceOrder;
+import energy.viridis.exercise.dto.MaintenanceOrderDTO;
 
 public interface MaintenanceOrderService {
 
-	MaintenanceOrder get(Long id);
+    MaintenanceOrderDTO get(Long id);
 
-	List<MaintenanceOrder> getAll();
+	List<MaintenanceOrderDTO> getAll();
+	
+	MaintenanceOrderDTO create(MaintenanceOrderDTO createEquipment) throws Exception;
+    
+	MaintenanceOrderDTO update(MaintenanceOrderDTO updateEquipment) throws Exception;
+    
+    boolean delete(Long id) throws Exception;
 
 }
