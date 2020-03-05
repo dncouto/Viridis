@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SkyLight from 'react-skylight';
-import SkyLightStateless from 'react-skylight';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import EquipmentDataService from '../service/EquipmentDataService.js';
 
 class ListEquipmentsComponent extends Component {
@@ -11,7 +11,7 @@ class ListEquipmentsComponent extends Component {
             message: null
         }
         this.refreshEquipments = this.refreshEquipments.bind(this)
-        this.deleteStudent = this.deleteStudent.bind(this);
+        this.deleteEquipment = this.deleteEquipment.bind(this);
         //this.createStudent = this.createStudent.bind(this);
         //this.updateStudent = this.updateStudent.bind(this);
     }
@@ -29,7 +29,7 @@ class ListEquipmentsComponent extends Component {
             )
     }
     
-    updateStudent(equipment) {
+    updateEquipment(equipment) {
         alert('teste');
         /*
         fetch(student.link, 
@@ -47,7 +47,7 @@ class ListEquipmentsComponent extends Component {
         */
       }
       
-    deleteStudent(equipment) {
+    deleteEquipment(equipment) {
         EquipmentDataService.deleteEquipment(equipment)
             .then(() => { 
                 this.refreshEquipments();
@@ -63,7 +63,7 @@ class ListEquipmentsComponent extends Component {
         return (
             <div className="container">
                 <h3>Equipamentos</h3>
-                <button onClick={this.refreshEquipments} style={{'margin':'0px 0px 10px 15px'}}>
+                <button className="btn btn-primary btn-xs" onClick={this.refreshEquipments} style={{'margin':'0px 0px 10px 15px','float':'right'}}>
                     Atualizar
                 </button>
                 <div className="container">
@@ -84,10 +84,10 @@ class ListEquipmentsComponent extends Component {
                                             <td>{equipment.id}</td>
                                             <td>{equipment.name}</td>
                                             <td>               
-                                                <StudentUpdateForm updateStudent={this.props.updateStudent} equipment={equipment}/>          
+                                                <EquipmentUpdateForm updateEquipment={this.props.updateEquipment} equipment={equipment}/>          
                                             </td>
                                             <td>               
-                                                <button className="btn btn-danger btn-xs" onClick={() => this.deleteStudent(equipment)}>Excluir</button>
+                                                <button className="btn btn-danger btn-xs" onClick={() => this.deleteEquipment(equipment)}>Excluir</button>
                                             </td>
                                         </tr>
                                 )
@@ -100,10 +100,10 @@ class ListEquipmentsComponent extends Component {
     }
 }
 
-class StudentUpdateForm extends React.Component {
+class EquipmentUpdateForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {name: this.props.student.name, lastname: this.props.student.lastname, email: this.props.student.email};
+        this.state = {id: this.props.equipment.id, name: this.props.equipment.name};
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);     
     }
@@ -116,7 +116,7 @@ class StudentUpdateForm extends React.Component {
     
     handleSubmit(event) {
         event.preventDefault();
-        var updStudent = {link: this.props.student._links.self.href ,firstname: this.state.firstname, lastname: this.state.lastname, email: this.state.email};
+        var updStudent = {link: this.props.student._links.self.href, id: this.state.id, name: this.state.name};
         this.props.updateStudent(updStudent);   
         this.refs.editDialog.hide();         
     }
@@ -126,21 +126,31 @@ class StudentUpdateForm extends React.Component {
           <div>
             <SkyLight hideOnOverlayClicked ref="editDialog">
                 <div className="panel panel-default">
-                <div className="panel-heading">Edit student</div>
-                <div className="panel-body">
+                <div className="modal-header">Alteração de Equipamento</div>
+                <div className="modal-body">
                 <form className="form">
-                    <div className="col-md-4">
-                        <input type="text" placeholder="Firstname" className="form-control"  name="firstname" value={this.state.firstname} onChange={this.handleChange}/>    
+                    <div className="row">
+                        <div className="col-md-2">
+                            <label>Código: </label>
+                        </div>
+                        <div className="col-md-4">
+                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id} onChange={this.handleChange}/>    
+                        </div>
                     </div>
-                    <div className="col-md-4">       
-                        <input type="text" placeholder="Lastname" className="form-control" name="lastname" value={this.state.lastname} onChange={this.handleChange}/>
+                    <div className="row">
+                        <div className="col-md-2">
+                            <label>Descrição: </label>
+                        </div>
+                        <div className="col-md-4">       
+                            <input type="text" placeholder="Descrição" className="form-control" name="name" value={this.state.name} onChange={this.handleChange}/>
+                        </div>
                     </div>
-                    <div className="col-md-4">
-                        <input type="text" placeholder="Email" className="form-control" name="email" value={this.state.email} onChange={this.handleChange}/>
-                    </div>
-                    <div className="col-md-2">
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>   
-                    </div>       
+                    <div className="row">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-2">
+                            <button className="btn btn-primary" onClick={this.handleSubmit}>Save</button>   
+                        </div>     
+                    </div>  
                 </form>
                 </div>      
                 </div>
