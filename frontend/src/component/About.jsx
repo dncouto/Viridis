@@ -5,7 +5,7 @@ export class About extends Component {
         return (
             <div>
                 <br/>
-                <h1 style={{widows:'100%', textAlign:'center'}}>Sobre</h1>
+                <h1 style={{widows:'100%', textAlign:'center'}}>Copyright*</h1>
                 <br/>
                 <br/>
                 <div style={{width:'100%', textAlign:'center'}}>
