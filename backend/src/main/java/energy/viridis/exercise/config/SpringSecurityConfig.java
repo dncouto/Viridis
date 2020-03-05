@@ -2,6 +2,7 @@ package energy.viridis.exercise.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -50,7 +51,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        http
+        .csrf().disable()   
+        .authorizeRequests()
+        .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .httpBasic();
+        /*
         http
             .csrf().disable()
             .httpBasic()
@@ -58,14 +66,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 cors()
             .and().
                 authorizeRequests().
+                antMatchers(HttpMethod.OPTIONS,"/**").permitAll().
                 //antMatchers("/login").permitAll().
                 antMatchers("/api/**").hasRole("ADMIN")
-            /*.and()
-                .formLogin()
-                .loginPage("http://localhost:3000/").usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("http://localhost:3000//home",true)
-                .failureUrl("http://localhost:3000/index?error=true")
-                .permitAll()*/
+            .and()
+                .formLogin().permitAll()
+                //.loginPage("http://localhost:3000/").usernameParameter("username").passwordParameter("password")
+                //.defaultSuccessUrl("http://localhost:3000//home",true)
+                //.failureUrl("http://localhost:3000/index?error=true")
+                .permitAll()
             .and()
                 .logout()
                 .permitAll()
@@ -74,6 +83,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
+        */
     }
 
 }
