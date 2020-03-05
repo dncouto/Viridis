@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../service/MaintenanceOrderDataService.js';
 //import EquipmentUpdateForm from './EquipmentUpdateForm.jsx';
-//import EquipmentCreateForm from './EquipmentCreateForm.jsx';
+import MaintenanceOrderCreateForm from './MaintenanceOrderCreateForm.jsx';
 
 class ListMaintenanceOrdersComponent extends Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class ListMaintenanceOrdersComponent extends Component {
                 <button className="btn btn-primary btn-xs" onClick={this.refreshOrders} style={{'margin':'0px 0px 10px 15px','float':'right'}}>
                     Atualizar
                 </button>
-                
+                <MaintenanceOrderCreateForm refreshOrders={this.refreshOrders}/>
                 <div className="container">
                     <table className="table">
                         <thead>
@@ -68,7 +68,7 @@ class ListMaintenanceOrdersComponent extends Component {
                                             <td>{order.equipmentName}</td>
                                             <td>{order.scheduledDate}</td>
                                             <td>               
-                                                
+                                                          
                                             </td>
                                             <td>               
                                                 <button className="btn btn-danger btn-xs" onClick={() => this.deleteOrder(order)}>Excluir</button>

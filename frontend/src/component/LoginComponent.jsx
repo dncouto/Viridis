@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthenticationService from '../service/AuthenticationService';
 
 class LoginComponent extends Component {
@@ -58,7 +59,7 @@ class LoginComponent extends Component {
                                     Usuário: 
                                 </div>
                                 <div className="col-md-4">
-                                    <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
+                                    <input className="form-control" type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                                 </div>
                             </div>
                             <br/>
@@ -68,13 +69,13 @@ class LoginComponent extends Component {
                                     Senha: 
                                 </div>
                                 <div className="col-md-4">
-                                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+                                    <input className="form-control" type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                                 </div>
                             </div>
                             <br/>
                             <div className="row">
-                                <div className="col-md-6" style={{textAlign:'right'}}>
-                                    <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+                                <div className="col-md-8" style={{textAlign:'right'}}>
+                                    <button className="btn btn-primary btn-success" onClick={this.loginClicked}>Entrar</button>
                                 </div>
                             </div>
                         </div>
