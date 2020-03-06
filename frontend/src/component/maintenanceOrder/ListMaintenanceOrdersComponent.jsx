@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MaintenanceOrderDataService from '../service/MaintenanceOrderDataService.js';
+import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
 //import EquipmentUpdateForm from './EquipmentUpdateForm.jsx';
 import MaintenanceOrderCreateForm from './MaintenanceOrderCreateForm.jsx';
 

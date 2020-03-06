@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ListEquipmentsComponent from './ListEquipmentsComponent';
-import ListMaintenanceOrdersComponent from './ListMaintenanceOrdersComponent';
+import ListEquipmentsComponent from './equipment/ListEquipmentsComponent';
+import ListMaintenanceOrdersComponent from './maintenanceOrder/ListMaintenanceOrdersComponent';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LoginComponent from './LoginComponent';
 import LogoutComponent from './LogoutComponent';

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Select from 'react-select';
 import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MaintenanceOrderDataService from '../service/MaintenanceOrderDataService.js';
-import EquipmentDataService from '../service/EquipmentDataService.js';
+import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
+import EquipmentDataService from '../../service/EquipmentDataService.js';
 
 class MaintenanceOrderCreateForm extends React.Component {
     constructor(props) {

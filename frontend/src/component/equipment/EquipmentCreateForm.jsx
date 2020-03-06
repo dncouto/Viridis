@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EquipmentDataService from '../service/EquipmentDataService.js';
+import EquipmentDataService from '../../service/EquipmentDataService.js';
 
-class EquipmentUpdateForm extends React.Component {
+class EquipmentCreateForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: this.props.equipment.id, name: this.props.equipment.name};
+        this.state = {id: '*', name: ''};
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
-        this.updateEquipment = this.updateEquipment.bind(this);
+        this.createEquipment = this.createEquipment.bind(this);
     }
 
-    updateEquipment(equipment) {
-        EquipmentDataService.updateEquipment(equipment)
+    createEquipment(equipment) {
+        EquipmentDataService.createEquipment(equipment)
             .then(() => { 
                 this.props.refreshEquipments();
-                alert('Equipamento alterado: '+equipment.name);
+                alert('Novo equipamento incluído: '+equipment.name);
             })
             .catch( err => {
                 console.error(err);
@@ -32,8 +32,8 @@ class EquipmentUpdateForm extends React.Component {
     
     handleSubmit(event) {
         event.preventDefault();
-        var updEquipment = {id: this.state.id, name: this.state.name};
-        this.updateEquipment(updEquipment);   
+        var insertEquipment = {name: this.state.name};
+        this.createEquipment(insertEquipment);   
         this.refs.editDialog.hide();         
     }
     
@@ -42,7 +42,7 @@ class EquipmentUpdateForm extends React.Component {
           <div>
             <SkyLight hideOnOverlayClicked ref="editDialog">
                 <div className="panel panel-default">
-                <div className="modal-header">Alteração de Equipamento</div>
+                <div className="modal-header">Inclusão de Equipamento</div>
                 <div className="modal-body">
                 <form className="form">
                     <div className="row">
@@ -50,14 +50,14 @@ class EquipmentUpdateForm extends React.Component {
                             <label>Código: </label>
                         </div>
                         <div className="col-md-3">
-                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id} onChange={this.handleChange}/>    
+                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id}/>    
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-2">
                             <label>Descrição: </label>
                         </div>
-                        <div className="col-md-6">       
+                        <div className="col-md-8">       
                             <input type="text" placeholder="Descrição" className="form-control" name="name" value={this.state.name} onChange={this.handleChange}/>
                         </div>
                     </div>
@@ -72,11 +72,11 @@ class EquipmentUpdateForm extends React.Component {
                 </div>
             </SkyLight>
             <div>
-                <button className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Alterar</button>
+                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Incluir</button>
             </div>
           </div>   
         );
     }
 }
 
-export default EquipmentUpdateForm
+export default EquipmentCreateForm
