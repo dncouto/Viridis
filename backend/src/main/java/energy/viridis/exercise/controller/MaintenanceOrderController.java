@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import energy.viridis.exercise.dto.MaintenanceOrderDTO;
+import energy.viridis.exercise.dto.MaintenanceOrderViewerDTO;
 import energy.viridis.exercise.service.MaintenanceOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,24 +35,24 @@ public class MaintenanceOrderController {
 	private MaintenanceOrderService maintenanceOrderService;
 
 	
-	@ApiOperation(value = "Busca todos as ordens de manutenções cadastradas", response = MaintenanceOrderDTO.class, responseContainer="List")
+	@ApiOperation(value = "Busca todos as ordens de manutenções cadastradas", response = MaintenanceOrderViewerDTO.class, responseContainer="List")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Lista retornada com sucesso"),
         @ApiResponse(code = 500, message = "Ocorreu um erro na consulta, e a causa é retornada na mensagem")
     })
 	@GetMapping
-	public ResponseEntity<List<MaintenanceOrderDTO>> getAll() {
+	public ResponseEntity<List<MaintenanceOrderViewerDTO>> getAll() {
 		return ResponseEntity.ok().body(maintenanceOrderService.getAll());
 	}
 
 	
-	@ApiOperation(value = "Busca uma única ordem de manutenção pelo código", response = MaintenanceOrderDTO.class)
+	@ApiOperation(value = "Busca uma única ordem de manutenção pelo código", response = MaintenanceOrderViewerDTO.class)
     @ApiResponses({
         @ApiResponse(code = 200, message = "Equipamento retornado com sucesso"),
         @ApiResponse(code = 500, message = "Ocorreu um erro na consulta, e a causa é retornada na mensagem")
     })
 	@GetMapping("/{id}")
-	public ResponseEntity<MaintenanceOrderDTO> get(@ApiParam(value="Código da ordem de manutenção", required=true) @PathVariable("id") Long id) {
+	public ResponseEntity<MaintenanceOrderViewerDTO> get(@ApiParam(value="Código da ordem de manutenção", required=true) @PathVariable("id") Long id) {
 		return ResponseEntity.ok().body(maintenanceOrderService.get(id));
 	}
 	

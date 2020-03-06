@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import energy.viridis.exercise.dto.MaintenanceOrderDTO;
+import energy.viridis.exercise.dto.MaintenanceOrderViewerDTO;
 import energy.viridis.exercise.model.Equipment;
 import energy.viridis.exercise.model.MaintenanceOrder;
 import energy.viridis.exercise.repository.MaintenanceOrderRepository;
@@ -32,21 +33,21 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
 
 	@Override
 	@Cacheable("maintenanceorder#get")
-	public MaintenanceOrderDTO get(Long id) {
+	public MaintenanceOrderViewerDTO get(Long id) {
 
 		log.info("Retrieving Maintenance Order - id: {}", id);
 		MaintenanceOrder maintenanceOrder = maintenanceOrderRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Maintenance Order not found."));
-		return new MaintenanceOrderDTO(maintenanceOrder); 
+		return new MaintenanceOrderViewerDTO(maintenanceOrder); 
 	}
 
 	@Override
 	@Cacheable("maintenanceorder#getAll")
-	public List<MaintenanceOrderDTO> getAll() {
+	public List<MaintenanceOrderViewerDTO> getAll() {
 
 		log.info("Listing all Maintenance Orders...");
-		List<MaintenanceOrderDTO> resultList = new ArrayList<MaintenanceOrderDTO>();
+		List<MaintenanceOrderViewerDTO> resultList = new ArrayList<MaintenanceOrderViewerDTO>();
 		maintenanceOrderRepository.findAll().forEach((item) -> {
-		    resultList.add(new MaintenanceOrderDTO(item));
+		    resultList.add(new MaintenanceOrderViewerDTO(item));
 		});
 		return resultList;
 	}

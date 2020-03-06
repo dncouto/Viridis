@@ -4,12 +4,13 @@ import java.text.ParseException;
 import java.util.List;
 
 import energy.viridis.exercise.dto.MaintenanceOrderDTO;
+import energy.viridis.exercise.dto.MaintenanceOrderViewerDTO;
 
 public interface MaintenanceOrderService {
 
-    MaintenanceOrderDTO get(Long id);
+    MaintenanceOrderViewerDTO get(Long id);
 
-	List<MaintenanceOrderDTO> getAll();
+	List<MaintenanceOrderViewerDTO> getAll();
 	
 	MaintenanceOrderDTO create(MaintenanceOrderDTO createEquipment) throws ParseException;
     
