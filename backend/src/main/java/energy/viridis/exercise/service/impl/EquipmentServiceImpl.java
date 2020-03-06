@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Autowired
 	private EquipmentRepository equipmentRepository;
+	
+	@Autowired
+	CacheManager cacheManager;
+	
 
 	@Override
 	@Cacheable("equipment#get")
@@ -45,7 +50,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Override
 	@CacheEvict(cacheNames= {"equipment#get","equipment#getAll"}, allEntries=true)
-	public EquipmentDTO create(EquipmentDTO dto) throws Exception {
+	public EquipmentDTO create(EquipmentDTO dto) {
 	    
 	    log.info("Insert new Equipment");
 	    
@@ -59,7 +64,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Override
 	@CacheEvict(cacheNames= {"equipment#get","equipment#getAll"}, allEntries=true)
-    public EquipmentDTO update(EquipmentDTO dto) throws Exception {
+    public EquipmentDTO update(EquipmentDTO dto) {
         
         log.info("Update one Equipment");
         
@@ -73,24 +78,28 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Override
 	@CacheEvict(cacheNames= {"equipment#get","equipment#getAll"}, allEntries=true)
-    public boolean delete(Long id) throws Exception {
+    public void delete(Long id) {
 
         log.info("Delete a Equipment - id: {}", id);
         
         Equipment equipment = equipmentRepository.findById(id).orElse(null);
         if (equipment == null) {
             log.info("Delete Equipment not found - id: {}", id);
+            clearCaches();
+            throw new NoSuchElementException("Este equipamento não existe mais na base.");
         } else {
             equipmentRepository.delete(equipment);
-            return true;
         }
-        
-        return false;
     }
 	
-	private void validate(EquipmentDTO dto) throws Exception {
+	private void validate(EquipmentDTO dto) {
         if (dto.getName().isEmpty()) {
-            throw new Exception("Nome do equipamento deve ser informado!");
+            throw new NullPointerException("Nome do equipamento deve ser informado!");
         }
     }
+	
+	private void clearCaches() {
+	    cacheManager.getCache("equipment#getAll").clear();
+        cacheManager.getCache("equipment#get").clear();
+	}
 }

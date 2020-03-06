@@ -14,6 +14,11 @@ class MaintenanceOrderCreateForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.createOrder = this.createOrder.bind(this);
+        this.initFields = this.initFields.bind(this);
+    }
+
+    initFields() {
+        this.setState({id: '*', equipmentId: "", scheduledDate: ""});
     }
 
     componentDidMount() {
@@ -35,7 +40,7 @@ class MaintenanceOrderCreateForm extends React.Component {
             })
             .catch( err => {
                 console.error(err);
-                alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err.response.data);
             });
     }
     
@@ -46,7 +51,10 @@ class MaintenanceOrderCreateForm extends React.Component {
     }    
 
     handleSelectChange = (newValue) => {
-        this.setState({ equipmentId : newValue.value });
+        var value = "";
+        if (newValue)
+            value = newValue.value;
+        this.setState({ equipmentId : value });
     };
     
     handleSubmit(event) {
@@ -77,7 +85,7 @@ class MaintenanceOrderCreateForm extends React.Component {
                             <label>Equipamento: </label>
                         </div>
                         <div className="col-md-8">
-                            <Select placeholder="Selecione o Equipamento" name="equipmentId" 
+                            <Select placeholder="Selecione o Equipamento" name="equipmentId" isClearable={true}
                                     value={this.equipmentsAvailable.filter(option => option.value === this.state.equipmentId)}
                                     options={this.equipmentsAvailable} 
                                     onChange={this.handleSelectChange} />
@@ -102,7 +110,7 @@ class MaintenanceOrderCreateForm extends React.Component {
                 </div>
             </SkyLight>
             <div>
-                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Incluir</button>
+                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => { this.initFields(); this.refs.editDialog.show(); }}>Incluir</button>
             </div>
           </div>   
         );

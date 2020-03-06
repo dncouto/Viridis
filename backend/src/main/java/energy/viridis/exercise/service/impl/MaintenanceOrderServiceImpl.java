@@ -1,11 +1,13 @@
 package energy.viridis.exercise.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,10 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
 
 	@Autowired
 	private MaintenanceOrderRepository maintenanceOrderRepository;
+    
+    @Autowired
+    CacheManager cacheManager;
+    
 
 	@Override
 	@Cacheable("maintenanceorder#get")
@@ -47,7 +53,7 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
 
     @Override
     @CacheEvict(cacheNames= {"maintenanceorder#get","maintenanceorder#getAll"}, allEntries=true)
-    public MaintenanceOrderDTO create(MaintenanceOrderDTO dto) throws Exception {
+    public MaintenanceOrderDTO create(MaintenanceOrderDTO dto) throws ParseException {
         
         log.info("Insert new Maintence Order");
         
@@ -63,46 +69,55 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
 
     @Override
     @CacheEvict(cacheNames= {"maintenanceorder#get","maintenanceorder#getAll"}, allEntries=true)
-    public MaintenanceOrderDTO update(MaintenanceOrderDTO dto) throws Exception {
+    public MaintenanceOrderDTO update(MaintenanceOrderDTO dto) throws ParseException {
         
         log.info("Update one Maintence Order");
         
         validate(dto);
         
-        MaintenanceOrder order = new MaintenanceOrder();
-        order.setId(dto.getId());
-        order.setEquipment(new Equipment().withId(dto.getEquipmentId()));
-        order.setScheduledDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getScheduledDate()));
-        order = maintenanceOrderRepository.save(order);
-        MaintenanceOrderDTO objUpdated = new MaintenanceOrderDTO(order);
-        return objUpdated;
+        MaintenanceOrder order = maintenanceOrderRepository.findById(dto.getId()).orElse(null);
+        if (order == null) {
+            log.info("Delete Maintence Order not found - id: {}", dto.getId());
+            clearCaches();
+            throw new NoSuchElementException("Esta ordem de manutenção não existe mais na base.");
+        } else {
+            order.setEquipment(new Equipment().withId(dto.getEquipmentId()));
+            order.setScheduledDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(dto.getScheduledDate()));
+            order = maintenanceOrderRepository.save(order);
+            MaintenanceOrderDTO objUpdated = new MaintenanceOrderDTO(order);
+            return objUpdated;
+        }
     }
 
     @Override
     @CacheEvict(cacheNames= {"maintenanceorder#get","maintenanceorder#getAll"}, allEntries=true)
-    public boolean delete(Long id) throws Exception {
+    public void delete(Long id) {
 
         log.info("Delete a Maintence Order - id: {}", id);
         
         MaintenanceOrder order = maintenanceOrderRepository.findById(id).orElse(null);
         if (order == null) {
-            log.info("Delete Equipment not found - id: {}", id);
+            log.info("Delete Maintence Order not found - id: {}", id);
+            clearCaches();
+            throw new NoSuchElementException("Esta ordem de manutenção não existe mais na base.");
         } else {
             maintenanceOrderRepository.delete(order);
-            return true;
         }
-        
-        return false;
     }
     
-    private void validate(MaintenanceOrderDTO dto) throws Exception {
+    private void validate(MaintenanceOrderDTO dto) {
         if (dto.getEquipmentId() == null) {
-            throw new Exception("Equipamento deve ser informado!");
+            throw new NullPointerException("Equipamento deve ser informado!");
         }
         
         if (dto.getScheduledDate().isEmpty()) {
-            throw new Exception("Data/Hora programada deve ser informada!");
+            throw new NullPointerException("Data/Hora programada deve ser informada!");
         }
+    }
+    
+    private void clearCaches() {
+        cacheManager.getCache("maintenanceorder#getAll").clear();
+        cacheManager.getCache("maintenanceorder#get").clear();
     }
 
 }

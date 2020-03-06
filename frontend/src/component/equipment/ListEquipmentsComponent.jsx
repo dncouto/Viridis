@@ -36,7 +36,8 @@ class ListEquipmentsComponent extends Component {
             })
             .catch( err => {
                 console.error(err);
-                alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err.response.data);
+                this.refreshEquipments();
             });
     }  
 

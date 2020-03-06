@@ -7,20 +7,28 @@ class EquipmentUpdateForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {id: this.props.equipment.id, name: this.props.equipment.name};
+        this.original = this.state;
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
         this.updateEquipment = this.updateEquipment.bind(this);
+        this.bindFields = this.bindFields.bind(this);
+    }
+
+    bindFields() {
+        this.setState(this.original);
     }
 
     updateEquipment(equipment) {
         EquipmentDataService.updateEquipment(equipment)
             .then(() => { 
+                this.original = equipment;
                 this.props.refreshEquipments();
                 alert('Equipamento alterado: '+equipment.name);
             })
             .catch( err => {
                 console.error(err);
-                alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err.response.data);
+                this.props.refreshEquipments();
             });
     }
 
@@ -72,7 +80,7 @@ class EquipmentUpdateForm extends React.Component {
                 </div>
             </SkyLight>
             <div>
-                <button className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Alterar</button>
+                <button className="btn btn-primary btn-xs" onClick={() => {this.bindFields(); this.refs.editDialog.show();}}>Alterar</button>
             </div>
           </div>   
         );

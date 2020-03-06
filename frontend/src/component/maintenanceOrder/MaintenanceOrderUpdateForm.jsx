@@ -8,21 +8,29 @@ class MaintenanceOrderUpdateForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {id: this.props.order.id, equipmentId: this.props.order.equipmentId, scheduledDate: this.props.order.scheduledDate};
+        this.original = this.state;
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.updateOrder = this.updateOrder.bind(this);
+        this.bindFields = this.bindFields.bind(this);
+    }
+
+    bindFields() {
+        this.setState(this.original);
     }
 
     updateOrder(order) {
         MaintenanceOrderDataService.updateOrder(order)
             .then(() => { 
+                this.original = order;
                 this.props.refreshOrders();
                 alert('Ordem de manutenção alterada! Código: '+order.id);
             })
             .catch( err => {
                 console.error(err);
-                alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err.response.data);
+                this.props.refreshOrders();
             });
     }
     
@@ -33,7 +41,10 @@ class MaintenanceOrderUpdateForm extends React.Component {
     }    
 
     handleSelectChange = (newValue) => {
-        this.setState({ equipmentId : newValue.value });
+        var value = "";
+        if (newValue)
+            value = newValue.value;
+        this.setState({ equipmentId : value });
     };
     
     handleSubmit(event) {
@@ -64,7 +75,7 @@ class MaintenanceOrderUpdateForm extends React.Component {
                             <label>Equipamento: </label>
                         </div>
                         <div className="col-md-8">
-                            <Select placeholder="Selecione o Equipamento" name="equipmentId" 
+                            <Select placeholder="Selecione o Equipamento" name="equipmentId" isClearable={true}
                                     value={this.props.equipmentsAvailable.filter(option => option.value === this.state.equipmentId)[0]}
                                     options={this.props.equipmentsAvailable} 
                                     onChange={this.handleSelectChange} />
@@ -89,7 +100,7 @@ class MaintenanceOrderUpdateForm extends React.Component {
                 </div>
             </SkyLight>
             <div>
-                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Alterar</button>
+                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => { this.bindFields(); this.refs.editDialog.show(); }}>Alterar</button>
             </div>
           </div>   
         );

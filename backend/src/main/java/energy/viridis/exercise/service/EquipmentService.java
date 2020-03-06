@@ -10,10 +10,10 @@ public interface EquipmentService {
 
 	List<EquipmentDTO> getAll();
 
-	EquipmentDTO create(EquipmentDTO createEquipment) throws Exception;
+	EquipmentDTO create(EquipmentDTO createEquipment);
 	
-	EquipmentDTO update(EquipmentDTO updateEquipment) throws Exception;
+	EquipmentDTO update(EquipmentDTO updateEquipment);
     
-    boolean delete(Long id) throws Exception;
+    void delete(Long id);
 
 }

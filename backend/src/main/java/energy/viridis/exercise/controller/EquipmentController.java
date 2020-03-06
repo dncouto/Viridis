@@ -3,8 +3,6 @@ package energy.viridis.exercise.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import energy.viridis.exercise.dto.EquipmentDTO;
 import energy.viridis.exercise.service.EquipmentService;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RequestMapping("/api/equipment")
@@ -40,40 +36,18 @@ public class EquipmentController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<EquipmentDTO> create(@RequestBody EquipmentDTO equipment) {
-	    try {
-	        return ResponseEntity.ok().body(equipmentService.create(equipment));
-	    } catch (Exception e) {
-	        log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+	public ResponseEntity<EquipmentDTO> create(@RequestBody EquipmentDTO equipment) throws Exception {
+	    return ResponseEntity.ok().body(equipmentService.create(equipment));
     }
 	
 	@PutMapping
     public ResponseEntity<EquipmentDTO> update(@RequestBody EquipmentDTO equipment) {
-        try {
-            return ResponseEntity.ok().body(equipmentService.update(equipment));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+	    return ResponseEntity.ok().body(equipmentService.update(equipment));
     }
 
 	@DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-	    try {
-            if (equipmentService.delete(id)) {
-                return ResponseEntity.ok().build();
-            }
-            log.error("Código de equipamento não existe!");
-            return ResponseEntity.notFound().build();
-	    } catch (DataIntegrityViolationException e) {
-	        log.error("Equipamento está sendo usado, e não pode ser excluído!");
-	        log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+	    equipmentService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

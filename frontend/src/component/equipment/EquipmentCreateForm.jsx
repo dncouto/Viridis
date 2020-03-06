@@ -10,6 +10,11 @@ class EquipmentCreateForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
         this.createEquipment = this.createEquipment.bind(this);
+        this.initFields = this.initFields.bind(this);
+    }
+
+    initFields() {
+        this.setState({id: '*', name: ''});
     }
 
     createEquipment(equipment) {
@@ -20,7 +25,7 @@ class EquipmentCreateForm extends React.Component {
             })
             .catch( err => {
                 console.error(err);
-                alert('Atenção! \nOcorreu o seguinte erro: '+err.message);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err.response.data);
             });
     }
 
@@ -72,7 +77,7 @@ class EquipmentCreateForm extends React.Component {
                 </div>
             </SkyLight>
             <div>
-                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => this.refs.editDialog.show()}>Incluir</button>
+                <button style={{float:'right'}} className="btn btn-primary btn-xs" onClick={() => { this.initFields(); this.refs.editDialog.show(); }}>Incluir</button>
             </div>
           </div>   
         );
