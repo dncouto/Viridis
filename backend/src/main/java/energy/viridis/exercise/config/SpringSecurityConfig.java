@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // Create 2 users for demo
+    // Criados 2 usuários fixos em memória
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -55,36 +55,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
         .antMatchers("/api/**").hasRole("ADMIN")
-        .antMatchers(HttpMethod.GET,"/api/**").hasRole("USER")
         .anyRequest().authenticated()
         .and()
         .httpBasic();
-        /*
-        http
-            .csrf().disable()
-            .httpBasic()
-            .and().
-                cors()
-            .and().
-                authorizeRequests().
-                antMatchers(HttpMethod.OPTIONS,"/**").permitAll().
-                //antMatchers("/login").permitAll().
-                antMatchers("/api/**").hasRole("ADMIN")
-            .and()
-                .formLogin().permitAll()
-                //.loginPage("http://localhost:3000/").usernameParameter("username").passwordParameter("password")
-                //.defaultSuccessUrl("http://localhost:3000//home",true)
-                //.failureUrl("http://localhost:3000/index?error=true")
-                .permitAll()
-            .and()
-                .logout()
-                .permitAll()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("http://localhost:3000/")
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true);
-        */
+
     }
 
 }

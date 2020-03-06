@@ -29,6 +29,10 @@ class ListMaintenanceOrdersComponent extends Component {
                     this.setState({ equipmentsAvailable: options });
                 }
             )
+            .catch( err => {
+                console.error(err);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err);
+            });
     }
 
     refreshOrders() {

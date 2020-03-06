@@ -3,6 +3,7 @@ import axios from 'axios'
 const API_URL = 'http://localhost:8080'
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
+export const USER_TOKEN_SESSION_ATTRIBUTE_NAME = 'token'
 
 class AuthenticationService {
 
@@ -17,11 +18,13 @@ class AuthenticationService {
 
     registerSuccessfulLogin(username, password) {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
-        this.setupAxiosInterceptors(this.createBasicAuthToken(username, password))
+        sessionStorage.setItem(USER_TOKEN_SESSION_ATTRIBUTE_NAME, this.createBasicAuthToken(username, password))
+        this.setupAxiosInterceptors()
     }
 
     logout() {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        sessionStorage.removeItem(USER_TOKEN_SESSION_ATTRIBUTE_NAME);
     }
 
     isUserLoggedIn() {
@@ -36,11 +39,11 @@ class AuthenticationService {
         return user
     }
 
-    setupAxiosInterceptors(token) {
+    setupAxiosInterceptors() {
         axios.interceptors.request.use(
             (config) => {
                 if (this.isUserLoggedIn()) {
-                    config.headers.authorization = token
+                    config.headers.authorization = sessionStorage.getItem(USER_TOKEN_SESSION_ATTRIBUTE_NAME)
                 }
                 return config
             }

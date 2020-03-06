@@ -26,6 +26,10 @@ class ListEquipmentsComponent extends Component {
                     this.setState({ equipments: response.data })
                 }
             )
+            .catch( err => {
+                console.error(err);
+                alert('Atenção! \n\nHouve um problema conforme detalhes abaixo: \n\n'+err);
+            });
     }
     
     deleteEquipment(equipment) {
