@@ -1,22 +1,37 @@
 import React, { Component } from 'react'
+import Select from 'react-select';
 import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../service/MaintenanceOrderDataService.js';
+import EquipmentDataService from '../service/EquipmentDataService.js';
 
 class MaintenanceOrderCreateForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: '*', equipmentId: null, scheduledDate: null};
+        this.state = {id: '*', equipmentId: "", scheduledDate: ""};
+        this.equipmentsAvailable = [];
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
         this.createOrder = this.createOrder.bind(this);
+    }
+
+    componentDidMount() {
+        EquipmentDataService.retrieveAllEquipments()
+            .then(
+                response => {
+                    response.data.forEach(equipment => {
+                        this.equipmentsAvailable.push({value: equipment.id, label: equipment.name});
+                    });
+                }
+            )
     }
 
     createOrder(order) {
         MaintenanceOrderDataService.createOrder(order)
             .then(() => { 
                 this.props.refreshOrders();
-                alert('Nova ordem de manutenção incluída: ');
+                alert('Nova ordem de manutenção incluída!');
             })
             .catch( err => {
                 console.error(err);
@@ -29,6 +44,10 @@ class MaintenanceOrderCreateForm extends React.Component {
             {[event.target.name]: event.target.value}
         );
     }    
+
+    handleSelectChange = (newValue) => {
+        this.setState({ equipmentId : newValue.value });
+    };
     
     handleSubmit(event) {
         event.preventDefault();
@@ -50,7 +69,18 @@ class MaintenanceOrderCreateForm extends React.Component {
                             <label>Código: </label>
                         </div>
                         <div className="col-md-3">
-                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id}/>
+                            <input readOnly type="text" placeholder="Código" className="form-control" name="id" value={this.state.id}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-2">
+                            <label>Equipamento: </label>
+                        </div>
+                        <div className="col-md-8">
+                            <Select placeholder="Selecione o Equipamento" name="equipmentId" 
+                                    value={this.equipmentsAvailable.filter(option => option.value === this.state.equipmentId)}
+                                    options={this.equipmentsAvailable} 
+                                    onChange={this.handleSelectChange} />
                         </div>
                     </div>
                     <div className="row">

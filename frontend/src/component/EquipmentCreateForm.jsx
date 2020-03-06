@@ -57,7 +57,7 @@ class EquipmentCreateForm extends React.Component {
                         <div className="col-md-2">
                             <label>Descrição: </label>
                         </div>
-                        <div className="col-md-6">       
+                        <div className="col-md-8">       
                             <input type="text" placeholder="Descrição" className="form-control" name="name" value={this.state.name} onChange={this.handleChange}/>
                         </div>
                     </div>
