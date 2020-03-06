@@ -50,7 +50,7 @@ class EquipmentUpdateForm extends React.Component {
                             <label>Código: </label>
                         </div>
                         <div className="col-md-3">
-                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id} onChange={this.handleChange}/>    
+                            <input readOnly type="text" placeholder="Código" className="form-control"  name="id" value={this.state.id}/>    
                         </div>
                     </div>
                     <div className="row">

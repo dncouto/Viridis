@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
-//import EquipmentUpdateForm from './EquipmentUpdateForm.jsx';
+import MaintenanceOrderUpdateForm from './MaintenanceOrderUpdateForm.jsx';
 import MaintenanceOrderCreateForm from './MaintenanceOrderCreateForm.jsx';
 
 class ListMaintenanceOrdersComponent extends Component {
@@ -66,9 +66,9 @@ class ListMaintenanceOrdersComponent extends Component {
                                         <tr key={order.id}>
                                             <td>{order.id}</td>
                                             <td>{order.equipmentName}</td>
-                                            <td>{order.scheduledDate}</td>
+                                            <td>{order.scheduledDateFormated}</td>
                                             <td>               
-                                                          
+                                                <MaintenanceOrderUpdateForm refreshOrders={this.refreshOrders} order={order}/>      
                                             </td>
                                             <td>               
                                                 <button className="btn btn-danger btn-xs" onClick={() => this.deleteOrder(order)}>Excluir</button>

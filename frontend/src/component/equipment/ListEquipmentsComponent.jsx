@@ -66,7 +66,7 @@ class ListEquipmentsComponent extends Component {
                                             <td>{equipment.id}</td>
                                             <td>{equipment.name}</td>
                                             <td>               
-                                                <EquipmentUpdateForm refreshEquipments={this.refreshEquipments} equipment={equipment}/>          
+                                                <EquipmentUpdateForm refreshEquipments={this.refreshEquipments} equipment={equipment}/>
                                             </td>
                                             <td>               
                                                 <button className="btn btn-danger btn-xs" onClick={() => this.deleteEquipment(equipment)}>Excluir</button>
