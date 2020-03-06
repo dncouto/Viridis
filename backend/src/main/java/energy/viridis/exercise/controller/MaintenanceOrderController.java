@@ -3,6 +3,7 @@ package energy.viridis.exercise.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +44,7 @@ public class MaintenanceOrderController {
             return ResponseEntity.ok().body(maintenanceOrderService.create(order));
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     
@@ -53,7 +54,7 @@ public class MaintenanceOrderController {
             return ResponseEntity.ok().body(maintenanceOrderService.update(order));
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -62,13 +63,13 @@ public class MaintenanceOrderController {
         
         try {
             if (maintenanceOrderService.delete(id)) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             }
             log.error("Código de ordem de manutenção não existe!");
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

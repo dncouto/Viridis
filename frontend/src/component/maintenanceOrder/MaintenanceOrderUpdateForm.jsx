@@ -3,29 +3,15 @@ import Select from 'react-select';
 import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
-import EquipmentDataService from '../../service/EquipmentDataService.js';
 
 class MaintenanceOrderUpdateForm extends React.Component {
     constructor(props) {
-        debugger;
         super(props);
         this.state = {id: this.props.order.id, equipmentId: this.props.order.equipmentId, scheduledDate: this.props.order.scheduledDate};
-        this.equipmentsAvailable = [];
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.updateOrder = this.updateOrder.bind(this);
-    }
-
-    componentDidMount() {
-        EquipmentDataService.retrieveAllEquipments()
-            .then(
-                response => {
-                    response.data.forEach(equipment => {
-                        this.equipmentsAvailable.push({value: equipment.id, label: equipment.name});
-                    });
-                }
-            )
     }
 
     updateOrder(order) {
@@ -79,8 +65,8 @@ class MaintenanceOrderUpdateForm extends React.Component {
                         </div>
                         <div className="col-md-8">
                             <Select placeholder="Selecione o Equipamento" name="equipmentId" 
-                                    value={this.equipmentsAvailable.filter(option => option.value === this.state.equipmentId)}
-                                    options={this.equipmentsAvailable} 
+                                    value={this.props.equipmentsAvailable.filter(option => option.value === this.state.equipmentId)[0]}
+                                    options={this.props.equipmentsAvailable} 
                                     onChange={this.handleSelectChange} />
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
+import EquipmentDataService from '../../service/EquipmentDataService.js';
 import MaintenanceOrderUpdateForm from './MaintenanceOrderUpdateForm.jsx';
 import MaintenanceOrderCreateForm from './MaintenanceOrderCreateForm.jsx';
 
@@ -9,6 +10,7 @@ class ListMaintenanceOrdersComponent extends Component {
         super(props)
         this.state = {
             orders: [],
+            equipmentsAvailable: [],
             message: null
         }
         this.refreshOrders = this.refreshOrders.bind(this)
@@ -17,6 +19,16 @@ class ListMaintenanceOrdersComponent extends Component {
 
     componentDidMount() {
         this.refreshOrders();
+        EquipmentDataService.retrieveAllEquipments()
+            .then(
+                response => {
+                    var options = [];
+                    response.data.forEach(equipment => {
+                        options.push({value: equipment.id, label: equipment.name});
+                    });
+                    this.setState({ equipmentsAvailable: options });
+                }
+            )
     }
 
     refreshOrders() {
@@ -68,7 +80,7 @@ class ListMaintenanceOrdersComponent extends Component {
                                             <td>{order.equipmentName}</td>
                                             <td>{order.scheduledDateFormated}</td>
                                             <td>               
-                                                <MaintenanceOrderUpdateForm refreshOrders={this.refreshOrders} order={order}/>      
+                                                <MaintenanceOrderUpdateForm refreshOrders={this.refreshOrders} equipmentsAvailable={this.state.equipmentsAvailable} order={order}/>      
                                             </td>
                                             <td>               
                                                 <button className="btn btn-danger btn-xs" onClick={() => this.deleteOrder(order)}>Excluir</button>

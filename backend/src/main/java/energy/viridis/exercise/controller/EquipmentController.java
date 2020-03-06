@@ -3,6 +3,8 @@ package energy.viridis.exercise.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +45,7 @@ public class EquipmentController {
 	        return ResponseEntity.ok().body(equipmentService.create(equipment));
 	    } catch (Exception e) {
 	        log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 	
@@ -53,7 +55,7 @@ public class EquipmentController {
             return ResponseEntity.ok().body(equipmentService.update(equipment));
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -61,13 +63,17 @@ public class EquipmentController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 	    try {
             if (equipmentService.delete(id)) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             }
             log.error("Código de equipamento não existe!");
             return ResponseEntity.notFound().build();
+	    } catch (DataIntegrityViolationException e) {
+	        log.error("Equipamento está sendo usado, e não pode ser excluído!");
+	        log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
