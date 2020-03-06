@@ -1,7 +1,6 @@
 package energy.viridis.exercise.dto;
 
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
 
 import energy.viridis.exercise.model.MaintenanceOrder;
 import lombok.Data;
@@ -12,8 +11,7 @@ public class MaintenanceOrderDTO {
     private Long id;
     private Long equipmentId;
     private String equipmentName;
-    private Date scheduledDate;
-    private List<EquipmentDTO> equipmentsAvailable;
+    private String scheduledDate;
     
     public MaintenanceOrderDTO() { }
             
@@ -22,6 +20,6 @@ public class MaintenanceOrderDTO {
         this.id = entity.getId();
         this.equipmentId = entity.getEquipment().getId();
         this.equipmentName = entity.getEquipment().getName();
-        this.scheduledDate = entity.getScheduledDate(); 
+        this.scheduledDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(entity.getScheduledDate()); 
     }
 }

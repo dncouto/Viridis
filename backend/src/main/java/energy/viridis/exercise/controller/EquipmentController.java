@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import energy.viridis.exercise.dto.EquipmentDTO;
 import energy.viridis.exercise.service.EquipmentService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RequestMapping("/api/equipment")
@@ -40,6 +42,7 @@ public class EquipmentController {
 	    try {
 	        return ResponseEntity.ok().body(equipmentService.create(equipment));
 	    } catch (Exception e) {
+	        log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -49,6 +52,7 @@ public class EquipmentController {
         try {
             return ResponseEntity.ok().body(equipmentService.update(equipment));
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -59,8 +63,10 @@ public class EquipmentController {
             if (equipmentService.delete(id)) {
                 return ResponseEntity.noContent().build();
             }
+            log.error("Código de equipamento não existe!");
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

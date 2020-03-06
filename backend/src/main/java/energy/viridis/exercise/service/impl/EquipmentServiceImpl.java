@@ -48,6 +48,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public EquipmentDTO create(EquipmentDTO dto) throws Exception {
 	    
 	    log.info("Insert new Equipment");
+	    
+	    validate(dto);
+	    
 	    Equipment equipment = new Equipment().withName(dto.getName());
 	    equipment = equipmentRepository.save(equipment);
 	    EquipmentDTO objInserted = new EquipmentDTO(equipment);
@@ -59,6 +62,9 @@ public class EquipmentServiceImpl implements EquipmentService {
     public EquipmentDTO update(EquipmentDTO dto) throws Exception {
         
         log.info("Update one Equipment");
+        
+        validate(dto);
+        
         Equipment equipment = new Equipment().withId(dto.getId()).withName(dto.getName());
         equipment = equipmentRepository.save(equipment);
         EquipmentDTO objUpdated = new EquipmentDTO(equipment);
@@ -80,5 +86,11 @@ public class EquipmentServiceImpl implements EquipmentService {
         }
         
         return false;
+    }
+	
+	private void validate(EquipmentDTO dto) throws Exception {
+        if (dto.getName().isEmpty()) {
+            throw new Exception("Nome do equipamento deve ser informado!");
+        }
     }
 }

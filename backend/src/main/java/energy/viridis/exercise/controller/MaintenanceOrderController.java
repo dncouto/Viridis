@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import energy.viridis.exercise.dto.MaintenanceOrderDTO;
 import energy.viridis.exercise.service.MaintenanceOrderService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RequestMapping("/api/maintenance-order")
@@ -40,6 +42,7 @@ public class MaintenanceOrderController {
         try {
             return ResponseEntity.ok().body(maintenanceOrderService.create(order));
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -49,6 +52,7 @@ public class MaintenanceOrderController {
         try {
             return ResponseEntity.ok().body(maintenanceOrderService.update(order));
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -60,8 +64,10 @@ public class MaintenanceOrderController {
             if (maintenanceOrderService.delete(id)) {
                 return ResponseEntity.noContent().build();
             }
+            log.error("Código de ordem de manutenção não existe!");
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
