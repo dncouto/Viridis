@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(value="Operações com cadastro de Equipamentos")
+@Api(value="Operações do cadastro de Equipamentos")
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RequestMapping("/api/equipment")
 public class EquipmentController {
