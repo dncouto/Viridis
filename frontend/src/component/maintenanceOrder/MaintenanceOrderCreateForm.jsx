@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
 import EquipmentDataService from '../../service/EquipmentDataService.js';
 
-class MaintenanceOrderCreateForm extends React.Component {
+class MaintenanceOrderCreateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {id: '*', equipmentId: "", scheduledDate: ""};

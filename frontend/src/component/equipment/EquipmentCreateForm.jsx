@@ -3,7 +3,7 @@ import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EquipmentDataService from '../../service/EquipmentDataService.js';
 
-class EquipmentCreateForm extends React.Component {
+class EquipmentCreateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {id: '*', name: ''};

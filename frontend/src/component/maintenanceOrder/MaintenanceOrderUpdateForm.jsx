@@ -4,7 +4,7 @@ import SkyLight from 'react-skylight';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaintenanceOrderDataService from '../../service/MaintenanceOrderDataService.js';
 
-class MaintenanceOrderUpdateForm extends React.Component {
+class MaintenanceOrderUpdateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {id: this.props.order.id, equipmentId: this.props.order.equipmentId, scheduledDate: this.props.order.scheduledDate};
