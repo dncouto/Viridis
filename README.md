@@ -1,14 +1,10 @@
 # Viridis Dev FullStack Java/React
-Seguem abaixo instruções para execução da aplicação localmente
+Seguem abaixo instruções para execução da aplicação localmente.
 
 ---
 
 ### Pré-requisitos
-Deverá ter instalado previamente:
-*Maven
-*JDK 8
-*PostgreSQL 9.4 (com usuário e senha padrão: [postgres/postgres])
-*NojeJs
+Deverá ter instalado previamente: Maven, JDK 8, NojeJs, PostgreSQL 9.4 (com usuário e senha padrão: [postgres/postgres])
 
 ---
 
