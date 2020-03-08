@@ -93,13 +93,15 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 	
 	private void validate(EquipmentDTO dto) {
-        if (dto.getName().isEmpty()) {
+        if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new NullPointerException("Nome do equipamento deve ser informado!");
         }
     }
 	
 	private void clearCaches() {
-	    cacheManager.getCache("equipment#getAll").clear();
-        cacheManager.getCache("equipment#get").clear();
+	    if (cacheManager.getCache("equipment#getAll") != null)
+	        cacheManager.getCache("equipment#getAll").clear();
+	    if (cacheManager.getCache("equipment#get") != null)
+	        cacheManager.getCache("equipment#get").clear();
 	}
 }

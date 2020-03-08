@@ -78,7 +78,7 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
         
         MaintenanceOrder order = maintenanceOrderRepository.findById(dto.getId()).orElse(null);
         if (order == null) {
-            log.info("Delete Maintence Order not found - id: {}", dto.getId());
+            log.info("Update Maintence Order not found - id: {}", dto.getId());
             clearCaches();
             throw new NoSuchElementException("Esta ordem de manutenção não existe mais na base.");
         } else {
@@ -111,14 +111,16 @@ public class MaintenanceOrderServiceImpl implements MaintenanceOrderService {
             throw new NullPointerException("Equipamento deve ser informado!");
         }
         
-        if (dto.getScheduledDate().isEmpty()) {
+        if (dto.getScheduledDate() == null || dto.getScheduledDate().isEmpty()) {
             throw new NullPointerException("Data/Hora programada deve ser informada!");
         }
     }
     
     private void clearCaches() {
-        cacheManager.getCache("maintenanceorder#getAll").clear();
-        cacheManager.getCache("maintenanceorder#get").clear();
+        if (cacheManager.getCache("maintenanceorder#getAll") != null)
+            cacheManager.getCache("maintenanceorder#getAll").clear();
+        if (cacheManager.getCache("maintenanceorder#get") != null)
+            cacheManager.getCache("maintenanceorder#get").clear();
     }
 
 }

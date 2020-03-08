@@ -1,11 +1,11 @@
 package energy.viridis.exercise.controller;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.*;
 
 import java.util.ArrayList;
@@ -43,7 +43,6 @@ public class EquipmentControllerTest {
     
     @BeforeAll
     public static void setUp() {
-        
         for (int i = 0; i < 10; i++) {
             EquipmentDTO equip = new EquipmentDTO(new Equipment().withId(Long.valueOf(i)).withName("Equipamento stub"));
             list.add(equip);    

@@ -17,7 +17,7 @@ public class MaintenanceOrderDTO {
     public MaintenanceOrderDTO(MaintenanceOrder entity) {
         
         this.id = entity.getId();
-        this.equipmentId = entity.getEquipment().getId();
-        this.scheduledDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(entity.getScheduledDate());
+        this.equipmentId = (entity.getEquipment() == null ? null : entity.getEquipment().getId());
+        this.scheduledDate = (entity.getScheduledDate() == null ? null : new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(entity.getScheduledDate()));
     }
 }
