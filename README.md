@@ -28,3 +28,5 @@ Entre com o usuário "admin" para usar as telas de cadastro.
 
 ### Documentação da API REST
 Acessa a URL http://localhost:8080/swagger-ui.html
+Usuário e senha para acesso: admin / 123
+Em cada método possui um exemplo de chamado, com o formato e tipo dos campos
