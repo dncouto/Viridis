@@ -61,7 +61,7 @@ public class EquipmentController {
         @ApiResponse(code = 500, message = "Ocorreu um erro na gravação, e a causa é retornada na mensagem")
     })
 	@PostMapping
-	public ResponseEntity<EquipmentDTO> create(@ApiParam(value="Dados do novo equipamento", required=true, type="json") @RequestBody EquipmentDTO equipment) throws Exception {
+	public ResponseEntity<EquipmentDTO> create(@ApiParam(value="Dados do novo equipamento", required=true, type="json") @RequestBody EquipmentDTO equipment) {
 	    return ResponseEntity.ok().body(equipmentService.create(equipment));
     }
 	
